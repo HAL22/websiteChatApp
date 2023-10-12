@@ -1,0 +1,15 @@
+bs4
+pinecone-client
+streamlit
+streamlit-extras
+streamlit-chat
+streamlit==1.23.1
+tiktoken==0.4.0
+tqdm==4.65.0
+requests==2.31.0
+openai==0.27.8
+openapi-schema-pydantic==1.2.4
+langchain==0.0.202
+langchainplus-sdk==0.0.10
+lxml==4.9.2
+GitPython==3.1.31
