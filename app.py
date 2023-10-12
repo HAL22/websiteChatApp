@@ -2,6 +2,16 @@ import streamlit as st
 import chatbot as cb
 from streamlit_chat import message
 
+# Initialise session state variables
+if 'generated' not in st.session_state:
+    st.session_state['generated'] = []
+if 'past' not in st.session_state:
+    st.session_state['past'] = []
+if 'messages' not in st.session_state:
+    st.session_state['messages'] = [
+        {"role": "system", "content": "You are a helpful assistant."}
+    ]
+
 
 def generate_response(prompt,agent):
     st.session_state['messages'].append({"role": "user", "content": prompt})
