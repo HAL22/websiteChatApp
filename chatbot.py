@@ -148,7 +148,7 @@ def get_texts(url):
 
 
 def creat_embeddings(url):
-    pinecone_name = url
+    pinecone_name = "anthropic"
 
     embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
