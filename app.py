@@ -1,7 +1,6 @@
 import streamlit as st
 import chatbot as cb
 from streamlit_chat import message
-import chat
 
 
 def generate_response(prompt,agent):
