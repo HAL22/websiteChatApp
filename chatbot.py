@@ -38,7 +38,7 @@ dict_href_links = {}
 p = {}
 
 # Max webpages
-maxWebpages = 400
+maxWebpages = 500
 
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
@@ -161,6 +161,8 @@ def creat_embeddings(url):
 
     
     docs = get_texts(url)
+
+    print(f"Print the doc length {len(docs)}")
 
     pinecone.create_index(pinecone_name, dimension=1536)
 
