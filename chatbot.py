@@ -152,14 +152,15 @@ def creat_embeddings(url):
 
     embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
-    docs = get_texts(url)
-
     indexes = pinecone.list_indexes()
 
     if pinecone_name in indexes:
         index =  Pinecone.from_existing_index(pinecone_name,embeddings) 
 
         return ConversationalRetrievalChain.from_llm(OpenAI(temperature=0), index.as_retriever(), memory=memory)
+
+    
+    docs = get_texts(url)
 
     pinecone.create_index(pinecone_name, dimension=1536)
 

@@ -2,7 +2,6 @@ bs4
 pinecone-client
 streamlit
 streamlit-extras
-streamlit-chat
 streamlit==1.23.1
 tiktoken==0.4.0
 tqdm==4.65.0
