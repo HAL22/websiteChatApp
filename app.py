@@ -7,7 +7,7 @@ txt_input = ""
 with st.form(key='txt_input'):
     txt_input = st.text_area('Enter url', '', height=80)
     agent = cb.get_agent(txt_input)
-    submit_button = st.form_submit_button(label='Enter') 
+    st.form_submit_button(label='Enter') 
 
 
 if "messages" not in st.session_state:
