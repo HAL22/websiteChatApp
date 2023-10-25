@@ -50,7 +50,7 @@ def getdata(url):
     return r.text
 
 def get_links(website_link, website,html_data):
-    soup = BeautifulSoup(html_data, "html.parser")
+    soup = BeautifulSoup(html_data, "lxml")
     list_links = []
     for link in soup.find_all("a", href=True):
         # Append to list if new link contains original link
