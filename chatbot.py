@@ -199,3 +199,21 @@ def get_agent(url):
     )
 
     return agent
+
+def get_init_agent():
+    llm = ChatOpenAI(
+        openai_api_key=os.environ['OPENAI_API_KEY'],
+        model_name='gpt-3.5-turbo',
+        temperature=0.0
+    )
+
+    agent = initialize_agent(
+        agent='chat-conversational-react-description',
+        llm=llm,
+        verbose=True,
+        max_iterations=3,
+        early_stopping_method='generate',
+        memory=memory
+    )
+
+    return agent
