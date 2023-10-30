@@ -207,10 +207,14 @@ def get_init_agent():
         temperature=0.0
     )
 
+    tools = [
+    ]
+
     agent = initialize_agent(
         agent='chat-conversational-react-description',
         llm=llm,
         verbose=True,
+        tools=tools,
         max_iterations=3,
         early_stopping_method='generate',
         memory=memory
