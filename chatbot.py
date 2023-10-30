@@ -141,7 +141,7 @@ def get_texts(url):
     return create_document_from_webpage(texts)    
 
 @st.cache_resource
-def load_pinecone(pages, index_name, embeddings=OpenAIEmbeddings(model="text-embedding-ada-002")):
+def load_pinecone(url,index_name, embeddings=OpenAIEmbeddings(model="text-embedding-ada-002")):
     # initialize pinecone
     pinecone.init(
     api_key=st.secrets['PINECONE_API_KEY'],
@@ -152,19 +152,23 @@ def load_pinecone(pages, index_name, embeddings=OpenAIEmbeddings(model="text-emb
         pinecone.create_index(
             name=index_name,
             dimension=1536  
-            )
-    docsearch = Pinecone.from_documents(pages, embeddings, index_name=index_name)
-    return docsearch
+        )
 
-@st.cache_resource
+    if index_name in pinecone.list_indexes():
+        index =  Pinecone.from_existing_index(st.secrets['PINECONE_NAME'],embeddings) 
+
+        return ConversationalRetrievalChain.from_llm(OpenAI(temperature=0), index.as_retriever(), memory=memory)    
+
+    pages = get_texts(url)
+
+    index = Pinecone.from_documents(pages, embeddings, index_name=index_name)
+    return ConversationalRetrievalChain.from_llm(OpenAI(temperature=0), index.as_retriever(), memory=memory)
+
+
 def creat_embeddings(url):
     pinecone_name = "anthropic"
     
-    docs = get_texts(url)
-
-    index = load_pinecone(docs,pinecone_name)
-
-    return ConversationalRetrievalChain.from_llm(OpenAI(temperature=0), index.as_retriever(), memory=memory)
+    return load_pinecone(url,pinecone_name)
 
 def get_agent(url):
     qa = creat_embeddings(url)
