@@ -4,7 +4,7 @@ import chatbot as cb
 st.title("Query any website")
 
 txt_input = ""
-agent = cb.get_init_agent()
+agent = cb.get_agent(txt_input)
 with st.form(key='txt_input'):
     txt_input = st.text_area('Enter url', '', height=80)
     submit_button = st.form_submit_button(label='Enter')
