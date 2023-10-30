@@ -19,13 +19,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.agents import initialize_agent
 import streamlit as st
 
-
 os.environ['OPENAI_API_KEY'] = st.secrets['OPENAI_API_KEY']
-
-pinecone.init(
-    api_key=st.secrets['PINECONE_API_KEY'],
-    environment=st.secrets['PINECONE_ENV']
-)
 
 # will store all of the webpages visted in text format
 webpages = []
@@ -146,27 +140,28 @@ def get_texts(url):
 
     return create_document_from_webpage(texts)    
 
+@st.cache_resource
+def load_pinecone(pages, index_name, embeddings=OpenAIEmbeddings(model="text-embedding-ada-002")):
+    # initialize pinecone
+    pinecone.init(
+    api_key=st.secrets['PINECONE_API_KEY'],
+    environment=st.secrets['PINECONE_ENV']
+    )   
+    if index_name not in pinecone.list_indexes():
+        # we create a new index
+        pinecone.create_index(
+            name=index_name,
+            dimension=1536  
+            )
+    docsearch = Pinecone.from_documents(pages, embeddings, index_name=index_name)
+    return docsearch
 
 def creat_embeddings(url):
     pinecone_name = "anthropic"
-
-    embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
-
-    indexes = pinecone.list_indexes()
-
-    if pinecone_name in indexes:
-        index =  Pinecone.from_existing_index(pinecone_name,embeddings) 
-
-        return ConversationalRetrievalChain.from_llm(OpenAI(temperature=0), index.as_retriever(), memory=memory)
-
     
     docs = get_texts(url)
 
-    print(f"Print the doc length {len(docs)}")
-
-    pinecone.create_index(pinecone_name, dimension=1536)
-
-    index =  Pinecone.from_documents(docs, embeddings, index_name=pinecone_name) 
+    index = load_pinecone(docs,pinecone_name)
 
     return ConversationalRetrievalChain.from_llm(OpenAI(temperature=0), index.as_retriever(), memory=memory)
 
