@@ -38,7 +38,7 @@ dict_href_links = {}
 p = {}
 
 # Max webpages
-maxWebpages = 800
+maxWebpages = 500
 
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
