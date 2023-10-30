@@ -140,7 +140,6 @@ def get_texts(url):
 
     return create_document_from_webpage(texts)    
 
-@st.cache_resource
 def load_pinecone(url,index_name, embeddings=OpenAIEmbeddings(model="text-embedding-ada-002")):
     # initialize pinecone
     pinecone.init(
