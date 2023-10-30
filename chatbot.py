@@ -156,6 +156,7 @@ def load_pinecone(pages, index_name, embeddings=OpenAIEmbeddings(model="text-emb
     docsearch = Pinecone.from_documents(pages, embeddings, index_name=index_name)
     return docsearch
 
+@st.cache_resource
 def creat_embeddings(url):
     pinecone_name = "anthropic"
     
