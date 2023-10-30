@@ -152,8 +152,7 @@ def load_pinecone(url,index_name, embeddings=OpenAIEmbeddings(model="text-embedd
             name=index_name,
             dimension=1536  
         )
-
-    if index_name in pinecone.list_indexes():
+    elif index_name in pinecone.list_indexes():
         index =  Pinecone.from_existing_index(index_name,embeddings) 
 
         return ConversationalRetrievalChain.from_llm(OpenAI(temperature=0), index.as_retriever(), memory=memory)    
